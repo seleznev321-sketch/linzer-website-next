@@ -1,26 +1,158 @@
 @import "tailwindcss";
 
+/* ░░░░░░░░░░ ЛИНЗЕР — дизайн-система ░░░░░░░░░░ */
+/* Стиль: Exaggerated Minimalism — крупная типографика, высокий контраст, */
+/* тёмная архитектурная база, стеклянные карточки (под профиль фасадной компании). */
+
+@theme {
+  /* Бренд */
+  --color-navy: #0e1a24; /* основной тёмный */
+  --color-navy-2: #14283a; /* карточки на тёмном */
+  --color-navy-3: #1e3a52; /* светлее */
+  --color-accent: #1ab3ff; /* голубой акцент (брендбук «Икра») */
+  --color-accent-d: #0e9be6;
+  --color-ink: #14202b; /* текст на светлом */
+  --color-muted: #5c6b78; /* серый текст */
+  --color-line: #e3e8ec; /* линии на светлом */
+  --color-paper: #ffffff;
+  --color-paper-soft: #f4f6f8;
+
+  /* Типографика */
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+
+  /* Кривая движения */
+  --ease-brand: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --maxw: 1180px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Контейнер */
+.container-x {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+/* Утилита: тонкая стеклянная карточка на тёмном */
+.glass {
+  background: color-mix(in srgb, var(--color-navy-2) 70%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid color-mix(in srgb, white 8%, transparent);
+}
+
+/* ── Scroll-reveal (CSS + IntersectionObserver) ──
+   По умолчанию (без JS, для краулеров) контент виден.
+   Класс reveal-ready на <html> ставит JS — только тогда включается анимация. */
+.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.6s var(--ease-brand),
+    transform 0.6s var(--ease-brand);
+  will-change: opacity, transform;
+}
+.reveal-ready [data-reveal].in {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-ready [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ░░░░░ Фирменные элементы брендбука «Икра» ░░░░░ */
+
+/* Текстура-«миллиметровка»: сетка с узлами-крестиками `+`.
+   Образ инженерной точности — сигнатурный фон бренда. */
+.grid-mm {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cg stroke='%23ffffff' stroke-width='1'%3E%3Cline x1='22' y1='17' x2='22' y2='27'/%3E%3Cline x1='17' y1='22' x2='27' y2='22'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 44px 44px;
+}
+
+/* Плёночное зерно — премиальная «киношная» фактура поверх фото. */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Прокрутка без видимой полосы (горизонтальные ленты). */
+.no-bar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-bar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Появление буквы заголовка «из ячейки сетки» (эффект логотипа 4×4). */
+@keyframes letter-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5em) scale(0.92);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+.reveal-ready .letter {
+  display: inline-block;
+  opacity: 0;
+  animation: letter-in 0.6s var(--ease-brand) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-ready .letter {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Утилита: надзаголовок-«eyebrow» */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 2px;
+  background: var(--color-accent);
 }
