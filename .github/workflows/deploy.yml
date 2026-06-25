@@ -17,7 +17,9 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        # npm install, не npm ci: lock-файл с macOS не содержит linux-only
+        # optional-зависимостей (@emnapi/*), из-за чего npm ci падает на CI.
+        run: npm install --no-audit --no-fund
 
       - name: Build static export
         env:
