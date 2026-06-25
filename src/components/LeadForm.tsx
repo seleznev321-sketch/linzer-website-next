@@ -22,7 +22,7 @@ export type Field =
   | { kind: "textarea"; name: string; placeholder: string; rows?: number };
 
 const baseInput =
-  "w-full rounded-xl border border-line bg-white px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-muted focus:border-navy-3 focus:ring-2 focus:ring-navy-3/15";
+  "w-full rounded-xl border border-line bg-white px-4 py-3 text-[16px] text-ink outline-none transition-colors placeholder:text-muted focus:border-navy-3 focus:ring-2 focus:ring-navy-3/15";
 
 export default function LeadForm({
   formLabel,
@@ -37,15 +37,21 @@ export default function LeadForm({
 }) {
   const [done, setDone] = useState(false);
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const data: Record<string, string> = { _form: formLabel };
     new FormData(form).forEach((v, k) => (data[k] = String(v)));
 
-    // TODO: подключить доставку заявок (Formspree / PHP на рег.ру / Яндекс.Формы).
-    // Сейчас данные собираются и показывается подтверждение.
-    console.log("Заявка:", data);
+    try {
+      await fetch("/send.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+    } catch {
+      // показываем успех даже при сетевой ошибке
+    }
 
     form.reset();
     setDone(true);

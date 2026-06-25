@@ -33,7 +33,6 @@ export const hero = {
     { num: "70+", lbl: "сданных объектов" },
     { num: "4", lbl: "цеха собственного производства" },
     { num: "15", lbl: "инженеров-конструкторов" },
-    { num: "10", lbl: "сервисных мастеров" },
   ],
   image: "/img/objects/hero_aquamarin.jpg",
 };

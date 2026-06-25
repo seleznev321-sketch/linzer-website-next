@@ -1,5 +1,6 @@
 import Reveal from "@/components/Reveal";
 import LeadForm, { type Field } from "@/components/LeadForm";
+import RequisitesButton from "@/components/RequisitesButton";
 import { company, supplyTags, vacancies, nav } from "@/content/site";
 
 function FormHead({
@@ -294,6 +295,7 @@ export function Footer() {
           >
             {company.email}
           </a>
+          <RequisitesButton />
         </div>
       </div>
       <div className="border-t border-white/10">

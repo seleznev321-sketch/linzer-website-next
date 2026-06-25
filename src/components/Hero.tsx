@@ -147,17 +147,17 @@ export default function Hero() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.94, ease: [0.22, 0.61, 0.36, 1] }}
-          className="mt-9 flex flex-wrap items-center gap-4"
+          className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4"
         >
           <a
-            href="#lead-form"
-            className="cursor-pointer rounded-full bg-accent px-7 py-3.5 text-sm font-bold text-navy transition-colors duration-200 hover:bg-accent-d"
+            href="#contacts"
+            className="w-full text-center cursor-pointer rounded-full bg-accent px-7 py-3.5 text-sm font-bold text-navy transition-colors duration-200 hover:bg-accent-d sm:w-auto"
           >
             Рассчитать стоимость работ
           </a>
           <a
             href="#callback"
-            className="cursor-pointer rounded-full border border-white/25 px-7 py-3.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-white/10"
+            className="w-full text-center cursor-pointer rounded-full border border-white/25 px-7 py-3.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-white/10 sm:w-auto"
           >
             Заказать звонок
           </a>

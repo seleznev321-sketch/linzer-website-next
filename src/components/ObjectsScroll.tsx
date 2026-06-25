@@ -79,7 +79,7 @@ export default function ObjectsScroll() {
         {/* Текстура-миллиметровка фоном */}
         <div className="grid-mm pointer-events-none absolute inset-0 opacity-[0.06]" aria-hidden />
 
-        <div className="container-x relative z-10">
+        <div className="relative z-10">
           <Header />
         </div>
 
@@ -186,7 +186,7 @@ function EndCard() {
         Пришлите чертежи или ТЗ — рассчитаем фасад, сроки и стоимость.
       </p>
       <a
-        href="#lead-form"
+        href="#contacts"
         className="mt-6 inline-flex w-fit cursor-pointer rounded-full bg-accent px-6 py-3 text-sm font-bold text-navy transition-colors hover:bg-accent-d"
       >
         Рассчитать стоимость
